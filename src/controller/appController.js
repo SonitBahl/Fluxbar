@@ -9,7 +9,15 @@ export function createAppController() {
   const api = createGroqClient();
   const stream = createStreamRenderer(ui);
   const history = createHistoryBridge();
-  const input = createInputController({ ui, api, stream, history });
+
+  async function submitQuery(query) {
+    void api;
+    void stream;
+    void history;
+    void query;
+  }
+
+  const input = createInputController({ ui, submitQuery });
 
   return {
     mount() {

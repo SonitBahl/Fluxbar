@@ -16,5 +16,27 @@ export function createUiModule() {
       outputPanelEl.classList.add("is-empty");
       queryInputEl.focus();
     },
+
+    getQueryInput() {
+      return queryInputEl;
+    },
+
+    getOutputPanel() {
+      return outputPanelEl;
+    },
+
+    getQueryValue() {
+      return queryInputEl?.value ?? "";
+    },
+
+    clearQuery() {
+      if (queryInputEl) {
+        queryInputEl.value = "";
+      }
+    },
+
+    focusQuery() {
+      queryInputEl?.focus();
+    },
   };
 }
