@@ -11,10 +11,19 @@ export function createAppController() {
   const history = createHistoryBridge();
 
   async function submitQuery(query) {
-    void api;
+    ui.setBusy(true);
+    try {
+      const result = await api.complete(query);
+      if (!result.ok) {
+        ui.setOutputError(result.error);
+        return;
+      }
+      ui.setOutputText(result.text);
+    } finally {
+      ui.setBusy(false);
+    }
     void stream;
     void history;
-    void query;
   }
 
   const input = createInputController({ ui, submitQuery });

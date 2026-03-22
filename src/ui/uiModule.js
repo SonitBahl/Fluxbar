@@ -38,5 +38,32 @@ export function createUiModule() {
     focusQuery() {
       queryInputEl?.focus();
     },
+
+    setOutputText(text) {
+      if (!outputPanelEl) {
+        return;
+      }
+      outputPanelEl.classList.remove("is-empty", "output-panel--error");
+      outputPanelEl.textContent = text;
+    },
+
+    setOutputError(message) {
+      if (!outputPanelEl) {
+        return;
+      }
+      outputPanelEl.classList.remove("is-empty");
+      outputPanelEl.classList.add("output-panel--error");
+      outputPanelEl.textContent = message;
+    },
+
+    setBusy(isBusy) {
+      if (!queryInputEl) {
+        return;
+      }
+      queryInputEl.disabled = Boolean(isBusy);
+      if (!isBusy) {
+        queryInputEl.focus();
+      }
+    },
   };
 }

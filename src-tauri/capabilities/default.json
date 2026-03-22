@@ -6,6 +6,11 @@
   "permissions": [
     "core:default",
     "core:window:allow-close",
-    "opener:default"
+    "opener:default",
+    "fs:default",
+    {
+      "identifier": "fs:scope",
+      "allow": [{ "path": "$HOME/.ai-launcher/**" }]
+    }
   ]
 }

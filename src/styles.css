@@ -75,6 +75,11 @@ body {
   box-shadow: 0 0 0 3px rgba(90, 126, 255, 0.2);
 }
 
+.query-input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .output-panel {
   flex: 1;
   padding: 18px 18px 16px;
@@ -89,4 +94,8 @@ body {
 .output-panel.is-empty::before {
   content: "AI responses will appear here...";
   color: #7f889f;
+}
+
+.output-panel.output-panel--error {
+  color: #ff8b8b;
 }
