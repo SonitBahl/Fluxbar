@@ -101,6 +101,28 @@ fn get_groq_api_key() -> Option<String> {
         .filter(|s| !s.is_empty())
 }
 
+/// Read `~/.ai-launcher/config.json` for fallback API key (same path as before; avoids JS `node_modules` imports).
+#[tauri::command]
+fn read_launcher_config_json() -> Result<Option<String>, String> {
+    let path = launcher_dir_path()?.join("config.json");
+    if !path.exists() {
+        return Ok(None);
+    }
+    fs::read_to_string(&path)
+        .map(Some)
+        .map_err(|err| format!("failed to read config.json: {err}"))
+}
+
+#[tauri::command]
+fn close_app(app: tauri::AppHandle) -> Result<(), String> {
+    use tauri::Manager;
+    app
+        .get_webview_window("main")
+        .ok_or_else(|| "main window not found".to_string())?
+        .close()
+        .map_err(|err| err.to_string())
+}
+
 #[tauri::command]
 fn append_history_entry(payload: HistoryAppendPayload) -> Result<HistoryAppendResult, String> {
     if payload.query.trim().is_empty() {
@@ -131,9 +153,13 @@ pub fn run() {
     }
 
     tauri::Builder::default()
-        .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![append_history_entry, get_groq_api_key])
+        .invoke_handler(tauri::generate_handler![
+            append_history_entry,
+            get_groq_api_key,
+            read_launcher_config_json,
+            close_app
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

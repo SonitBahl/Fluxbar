@@ -99,3 +99,7 @@ body {
 .output-panel.output-panel--error {
   color: #ff8b8b;
 }
+
+.output-panel.output-panel--streaming {
+  min-height: 120px;
+}

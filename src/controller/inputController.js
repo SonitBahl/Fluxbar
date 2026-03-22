@@ -39,7 +39,14 @@ export function createInputController(deps) {
           return;
         }
 
-        await submitQuery(query);
+        try {
+          await submitQuery(query);
+        } catch (err) {
+          const msg =
+            err instanceof Error ? err.message : String(err ?? "Unknown error");
+          deps.ui.setOutputError(`Error: ${msg}`);
+          console.error("[fluxbar] submitQuery failed:", err);
+        }
       });
 
       window.addEventListener(

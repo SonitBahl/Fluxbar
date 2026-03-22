@@ -47,6 +47,37 @@ export function createUiModule() {
       outputPanelEl.textContent = text;
     },
 
+    beginStreamingOutput() {
+      if (!outputPanelEl) {
+        return;
+      }
+      outputPanelEl.classList.remove("is-empty", "output-panel--error");
+      outputPanelEl.classList.add("output-panel--streaming");
+      outputPanelEl.textContent = "";
+    },
+
+    /**
+     * Updates streamed assistant text and keeps the panel scrolled to the end.
+     * @param {string} text
+     */
+    setStreamingText(text) {
+      if (!outputPanelEl) {
+        return;
+      }
+      outputPanelEl.classList.remove("is-empty", "output-panel--error");
+      outputPanelEl.classList.add("output-panel--streaming");
+      outputPanelEl.textContent = text;
+      outputPanelEl.scrollTop = outputPanelEl.scrollHeight;
+    },
+
+    finishStreamingOutput() {
+      if (!outputPanelEl) {
+        return;
+      }
+      outputPanelEl.classList.remove("output-panel--streaming");
+      outputPanelEl.scrollTop = outputPanelEl.scrollHeight;
+    },
+
     setOutputError(message) {
       if (!outputPanelEl) {
         return;

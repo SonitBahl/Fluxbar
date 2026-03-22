@@ -13,17 +13,11 @@ export function createAppController() {
   async function submitQuery(query) {
     ui.setBusy(true);
     try {
-      const result = await api.complete(query);
-      if (!result.ok) {
-        ui.setOutputError(result.error);
-        return;
-      }
-      ui.setOutputText(result.text);
+      await stream.renderPrompt(api, query);
+      void history;
     } finally {
       ui.setBusy(false);
     }
-    void stream;
-    void history;
   }
 
   const input = createInputController({ ui, submitQuery });
